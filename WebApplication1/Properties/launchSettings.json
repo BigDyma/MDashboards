@@ -1,7 +1,4 @@
 ﻿{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=MDDSK40252\\SQLEXPRESS;Database=Users;Trusted_Connection=True;"
-  },
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,

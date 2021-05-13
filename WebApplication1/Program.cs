@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Server.Kestrel;
 using System.IO;
 
-namespace WebApplication1
+namespace WebAPI
 {
     public class Program
     {
@@ -17,7 +17,7 @@ namespace WebApplication1
         .ConfigureAppConfiguration((hostingContext, config) =>
         {
             var env = hostingContext.HostingEnvironment;
-            config.AddJsonFile("launchSettings.json", optional: true, reloadOnChange: true);
+            config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             config.AddEnvironmentVariables();
         })
         .ConfigureLogging((hostingContext, logging) =>

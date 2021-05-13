@@ -7,7 +7,7 @@ using Entity;
 using Microsoft.AspNetCore.Identity;
 using Entity.Models;
 
-namespace WebApplication1
+namespace WebAPI
 {
     public class Startup
     {
