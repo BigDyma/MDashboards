@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="Model\Mapping\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 
