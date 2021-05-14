@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Entity
 {
@@ -53,9 +54,9 @@ namespace Entity
             return _db.Set<T>().ToList();
         }
 
-        public void Save(T item)
+        public async Task Save()
         {
-            _db.SaveChanges();
+           await _db.SaveChangesAsync();
         }
 
         public void Update(T item)

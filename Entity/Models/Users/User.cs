@@ -12,8 +12,6 @@ namespace Entity
         [Required]
         public string FullName { get; set; }
 
-        [Required]
-        public string Password { get; set; }
         [MaxLength(320)]
         [EmailAddress]
         public override string Email { get; set; }

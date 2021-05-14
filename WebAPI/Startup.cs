@@ -6,6 +6,11 @@ using Microsoft.Extensions.Hosting;
 using Entity;
 using Microsoft.AspNetCore.Identity;
 using Entity.Models;
+using WebAPI.Model.AuthOptions;
+using WebAPI.Services;
+using WebAPI.Services.Interfaces;
+using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI
 {
@@ -21,9 +26,12 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationContext>();
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
             services.AddScoped<IRepository<Project>, SQLGenericRepository<Project>>();
-
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddIdentity<User, Role>(options =>
             {
                 options.Password.RequiredLength = 8;
@@ -38,6 +46,10 @@ namespace WebAPI
             .AddRoles<Role>()
             .AddRoleManager<RoleManager<Role>>()
             .AddEntityFrameworkStores<ApplicationContext>();
+
+            var authOptionsConfiguration = Configuration.GetSection("Auth");
+            services.Configure<AuthOptions>(authOptionsConfiguration);
+
             services.AddControllers();
         }
 

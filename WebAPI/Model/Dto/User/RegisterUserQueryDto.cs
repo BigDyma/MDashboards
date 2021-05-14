@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Model.Dto
 {
-    public class RegisterUserDto 
+    public class RegisterUserQueryDto 
     {
         [MaxLength(32)]
         public string FullName { get; set; }

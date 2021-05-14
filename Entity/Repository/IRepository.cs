@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Entity
 {
@@ -11,6 +12,6 @@ namespace Entity
         void Create(T item);
         void Update(T item);
         void Delete(T item);
-        void Save(T item);
+        Task Save();
     }
 }

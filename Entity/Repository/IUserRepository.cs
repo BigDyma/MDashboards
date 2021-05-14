@@ -1,9 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Entity
 {
-    interface IUserRepository : ISQLGenericRepository<User>
+    public interface IUserRepository : IRepository<User>
     {
-        IEnumerable<User> GetAdultUsers();
+        Task<User> GetByUserName(string username);
+
+        Task<User> GetByEmail(string email);
+
+        Task<User> CreateUser(User user);
+        Task<User> SingleUserNameAndEmail(string username, string email);
     }
 }
