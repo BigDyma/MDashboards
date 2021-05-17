@@ -5,6 +5,6 @@ namespace Entity
     public abstract class EntityBase
     {
         [Key]
-        public virtual long  Id { get; set; }
+        public virtual long Id { get; set; }
     }
 }

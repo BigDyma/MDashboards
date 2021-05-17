@@ -13,6 +13,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Entity.Repository;
 
 namespace WebAPI
 {
@@ -31,8 +32,9 @@ namespace WebAPI
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
-            services.AddScoped<IRepository<Project>, SQLGenericRepository<Project>>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());

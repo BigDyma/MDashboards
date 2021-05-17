@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.Model.Dto.Projects;
 
 namespace WebAPI.Controllers
 {
@@ -21,11 +22,11 @@ namespace WebAPI.Controllers
             throw new NotImplementedException();
         }
 
-        //[HttpPut]
-        //public async Task<IActionResult> UpdateProject([FromBody] ProjectUpdateDto userModel)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        [HttpPut("{id}"]
+        public async Task<IActionResult> UpdateProject(long id, [FromBody] ProjectUpdateDto userModel)
+        {
+            throw new NotImplementedException();
+        }
 
         [HttpGet("{id}/reports")]
         public async Task<IActionResult> GetProjectReports (long id)
@@ -33,10 +34,10 @@ namespace WebAPI.Controllers
             throw new NotImplementedException();
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> CreateProject([FromBody] ProjectCreateDto projectCreateDto)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        [HttpPost]
+        public async Task<IActionResult> CreateProject([FromBody] ProjectCreateDto projectCreateDto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

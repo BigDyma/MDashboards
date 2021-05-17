@@ -1,4 +1,5 @@
 ﻿using Entity.Models;
+using Entity.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,11 @@ namespace Entity
         {
 
         }
+
         public async Task DeleteUser(long id)
         {
-           var res =  await _db.Set<User>().FirstOrDefaultAsync(u => u.Id == id);
-           await Delete(res);
+            var res = await _db.Set<User>().FirstOrDefaultAsync(u => u.Id == id);
+            await Delete(res);
         }
         public async Task<User> GetByUserName(string username)
         {
@@ -38,9 +40,7 @@ namespace Entity
         }
         public async Task<User> CreateUser(User user)
         {
-            _db.Entry(user).State = EntityState.Modified;
-            await _db.Users.AddAsync(user);
-            await _db.SaveChangesAsync();
+           await base.Create(user);
 
             return user;
         }

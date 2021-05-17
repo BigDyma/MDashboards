@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,10 +15,11 @@ namespace Entity
         {
             _db = item;
         }
-        public void Create(T item)
+        public async Task Create(T item)
         {
-            _db.Set<T>().Add(item);
-            _db.SaveChanges();
+            _db.Entry(item).State = EntityState.Modified;
+            await _db.Set<T>().AddAsync(item);
+            await _db.SaveChangesAsync();
         }
 
         public async Task Delete(T item)
