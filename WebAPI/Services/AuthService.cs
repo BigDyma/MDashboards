@@ -74,10 +74,6 @@ namespace WebAPI.Services
                                             signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
-
-
-
-
         }
 
         public async Task LogOut()

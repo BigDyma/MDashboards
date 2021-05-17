@@ -20,10 +20,10 @@ namespace Entity
             _db.SaveChanges();
         }
 
-        public void Delete(T item)
+        public async Task Delete(T item)
         {
             _db.Set<T>().Remove(item);
-            _db.SaveChanges();
+            await Save();
         }
 
 
@@ -44,9 +44,9 @@ namespace Entity
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        public T GetEntity(int id)
+        public async Task<T> GetEntity(long id)
         {
-            return _db.Set<T>().Find(id);
+            return await _db.Set<T>().FindAsync(id);
         }
 
         public IEnumerable<T> GetEntityList()

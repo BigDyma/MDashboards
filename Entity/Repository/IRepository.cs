@@ -8,10 +8,10 @@ namespace Entity
     public interface IRepository<T>: IDisposable
     {
         IEnumerable<T> GetEntityList();
-        T GetEntity(int id);
+        Task<T> GetEntity(long id);
         void Create(T item);
         void Update(T item);
-        void Delete(T item);
+        Task Delete(T item);
         Task Save();
     }
 }

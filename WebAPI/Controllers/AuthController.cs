@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using WebAPI.Model.AuthOptions;
 using WebAPI.Model.Dto;
 using WebAPI.Services.Interfaces;
 
@@ -13,12 +8,12 @@ namespace WebAPI.Controllers
 {
     [ApiController]
     [Route("{controller}")]
-    public class AuthenticationController: BaseController
+    public class AuthController: BaseController
     {
         private IAuthService _authService { get; }
 
 
-        public AuthenticationController(IAuthService authService)
+        public AuthController(IAuthService authService)
         {
 
             _authService = authService;

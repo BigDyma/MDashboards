@@ -16,6 +16,8 @@ namespace WebAPI.Model.Mapping
             CreateMap<RegisterUserQueryDto, User>();
 
             CreateMap<RegisterUserQueryDto, UserResponseDto>();
+
+            
         }
     }
 }

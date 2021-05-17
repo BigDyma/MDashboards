@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entity.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,11 @@ namespace Entity
         {
 
         }
-
+        public async Task DeleteUser(long id)
+        {
+           var res =  await _db.Set<User>().FirstOrDefaultAsync(u => u.Id == id);
+           await Delete(res);
+        }
         public async Task<User> GetByUserName(string username)
         {
             return  await _db.Set<User>().FirstOrDefaultAsync(x => x.UserName == username);
@@ -38,6 +43,18 @@ namespace Entity
             await _db.SaveChangesAsync();
 
             return user;
+        }
+
+        public async Task<ICollection<Project>> GetProjects(long id)
+        {
+            var res = await _db.Set<User>().FirstOrDefaultAsync(u => u.Id == id);
+
+            if (res != null)
+            {
+                //@TO-DO refactor exceptions.
+                throw new Exception("No such user");
+            }
+            return res.Projects;
         }
     }
 

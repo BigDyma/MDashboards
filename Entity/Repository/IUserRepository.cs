@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Entity.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Entity
@@ -11,5 +12,8 @@ namespace Entity
 
         Task<User> CreateUser(User user);
         Task<User> SingleUserNameAndEmail(string username, string email);
+        Task DeleteUser(long id);
+
+        Task<ICollection<Project>> GetProjects(long id);
     }
 }

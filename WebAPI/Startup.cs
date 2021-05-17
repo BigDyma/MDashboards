@@ -30,6 +30,7 @@ namespace WebAPI
         {
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
+
             services.AddScoped<IRepository<Project>, SQLGenericRepository<Project>>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthService, AuthService>();

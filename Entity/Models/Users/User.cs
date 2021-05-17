@@ -15,8 +15,7 @@ namespace Entity
         [MaxLength(320)]
         [EmailAddress]
         public override string Email { get; set; }
-        [MaxLength(15)]
-        public string Phone { get; set; }
+
         [Required]
         public DateTime DOB { get; set; }
         public string RegisterTimestamp { get; set; }
