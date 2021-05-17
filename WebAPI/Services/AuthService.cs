@@ -46,7 +46,7 @@ namespace WebAPI.Services
 
             var token = await GenerateToken(user);
 
-            return new LoginUserResponseDto { Id = user.Id, Token = token, Username = user.UserName };
+            return new LoginUserResponseDto {  Token = token };
 
         }
 

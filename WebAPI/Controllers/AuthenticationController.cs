@@ -37,6 +37,7 @@ namespace WebAPI.Controllers
             var result = await _authService.Login(loginUser);
             return Ok(result);
         }
+
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {

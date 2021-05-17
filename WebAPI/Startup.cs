@@ -11,6 +11,8 @@ using WebAPI.Services;
 using WebAPI.Services.Interfaces;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebAPI
 {
@@ -50,6 +52,32 @@ namespace WebAPI
 
             var authOptionsConfiguration = Configuration.GetSection("Auth");
             services.Configure<AuthOptions>(authOptionsConfiguration);
+            var authOptions = Configuration.GetSection("Auth").Get<AuthOptions>();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+             .AddJwtBearer(options =>
+             {
+                 options.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateIssuer = true,
+                     ValidIssuer = authOptions.Issuer,
+
+                     ValidateAudience = true,
+                     ValidAudience = authOptions.Audience,
+
+                     ValidateLifetime = true,
+
+                     ValidateIssuerSigningKey = true,
+                     IssuerSigningKey = authOptions.GetSymmetricSecurityKey()
+                 };
+             });
+
+            services.AddAuthorization();
+
 
             services.AddControllers();
         }
@@ -71,6 +99,7 @@ namespace WebAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
