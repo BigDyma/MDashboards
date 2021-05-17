@@ -8,7 +8,7 @@ using WebAPI.Model.Dto.User;
 
 namespace WebAPI.Services.Interfaces
 {
-    interface IUserService
+    public interface IUserService
     {
         Task<UserResponseDto> GetUser(long id);
 
@@ -18,7 +18,7 @@ namespace WebAPI.Services.Interfaces
 
         Task<ICollection<ProjectResponseDto>> GetUserProjects(long id);
 
-        Task<ReportResponseDto> GetUserReports(long id);
+        Task<ICollection<ReportResponseDto>> GetUserReports(long id);
 
 
     }

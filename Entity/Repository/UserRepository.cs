@@ -56,6 +56,18 @@ namespace Entity
             }
             return res.Projects;
         }
+
+        public async Task<ICollection<Report>> GetReports(long id)
+        {
+            var res = await _db.Set<User>().FirstOrDefaultAsync(u => u.Id == id);
+            if (res != null)
+            {
+                //@TO-DO refactor exceptions.
+                throw new Exception("No such user");
+            }
+
+           return res.Projects.SelectMany(x => x.Reports, (a, b) => b).ToList();
+        }
     }
 
 }

@@ -21,11 +21,11 @@ namespace WebAPI.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateReport([FromBody] ReportUpdateDto userModel)
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpPut]
+        //public async Task<IActionResult> UpdateReport([FromBody] ReportUpdateDto userModel)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         [HttpGet("{id}/project")]
         public async Task<IActionResult> GetProjectName(long id)
@@ -33,11 +33,11 @@ namespace WebAPI.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateReport([FromBody] ReportCreateDto projectCreateDto)
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> CreateReport([FromBody] ReportCreateDto projectCreateDto)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
     }
 }

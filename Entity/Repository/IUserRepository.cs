@@ -15,5 +15,7 @@ namespace Entity
         Task DeleteUser(long id);
 
         Task<ICollection<Project>> GetProjects(long id);
+
+        Task<ICollection<Report>> GetReports(long id);
     }
 }

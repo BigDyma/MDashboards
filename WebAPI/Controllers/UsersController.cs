@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Model.Dto.User;
+using WebAPI.Services.Interfaces;
 
 namespace WebAPI.Controllers
 {
@@ -12,34 +13,54 @@ namespace WebAPI.Controllers
     [Route("{controller}")]
     public class UsersController : BaseController
     {
+        private IUserService _userService { get; }
+
+        public UsersController(IUserService userService)
+        {
+            _userService = userService;
+        }
+        [AllowAnonymous] //@TO-DO remove this
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(long id)
         {
-            throw new NotImplementedException();
+            var res = await _userService.GetUser(id);
+
+            return Ok(res);
+
         }
-        
+        [AllowAnonymous] //@TO-DO remove this
         [HttpDelete("{id}")]
         //[Authorize(Roles = "Admin")] @TO-DO uncomment this
         public async Task<IActionResult> DeleteUser(long id)
         {
-            throw new NotImplementedException();
-        }
+            await _userService.DeleteUser(id);
 
+            return Ok();
+
+        }
+        [AllowAnonymous] //@TO-DO remove this
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto userModel)
         {
-            throw new NotImplementedException();
-        }
+            var res = await _userService.UpdateUser(userModel);
 
+            return Ok(res);
+        }
+        [AllowAnonymous] //@TO-DO remove this
         [HttpGet("{id}/projects")]
         public async Task<IActionResult> GetUserProjects(long id)
         {
-            throw new NotImplementedException();
+            var res = _userService.GetUserProjects(id);
+
+            return Ok(res);
         }
+        [AllowAnonymous] //@TO-DO remove this
         [HttpGet("{id}/reports")]
         public async Task<IActionResult> GetUserReports(long id)
         {
-            throw new NotImplementedException();
+            var res = _userService.GetUserReports(id);
+
+            return Ok(res);
         }
 
     }

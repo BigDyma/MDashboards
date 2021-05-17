@@ -43,9 +43,13 @@ namespace WebAPI.Services
             return output;
         }
 
-        public Task<ReportResponseDto> GetUserReports(long id)
+        public async Task<ICollection<ReportResponseDto>> GetUserReports(long id)
         {
-            throw new NotImplementedException();
+            var res = await _userRepository.GetReports(id);
+
+            var output = _mapper.Map<ICollection<ReportResponseDto>>(res);
+
+            return output;
         }
 
         public async Task<UserResponseDto> UpdateUser(UserUpdateDto userUpdateDto)

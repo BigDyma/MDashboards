@@ -34,6 +34,7 @@ namespace WebAPI
             services.AddScoped<IRepository<Project>, SQLGenericRepository<Project>>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddCors();
             services.AddIdentity<User, Role>(options =>
