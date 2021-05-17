@@ -1,12 +1,18 @@
 ﻿using AutoMapper;
 using Entity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WebAPI.Exceptions;
+using WebAPI.Model.AuthOptions;
 using WebAPI.Model.Dto;
 using WebAPI.Model.Dto.User;
 using WebAPI.Services.Interfaces;
@@ -19,21 +25,64 @@ namespace WebAPI.Services
         private IMapper _mapper { get; }
         private SignInManager<User> _signInManager { get; }
         private  UserManager<User> _userManager { get; }
-        public AuthService(IUserRepository userRepository, IMapper mapper, UserManager<User> userManager)
+        private IOptions<AuthOptions> _authOptions { get; }
+        public AuthService(IUserRepository userRepository, IMapper mapper, UserManager<User> userManager,IOptions<AuthOptions> authOptions, SignInManager<User> signInManager)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _userManager = userManager;
+            _authOptions = authOptions;
+            _signInManager = signInManager;
         }
 
-        public Task<UserResponseDto> Login(LoginUserQueryDto loginUserDto)
+        public async Task<LoginUserResponseDto> Login(LoginUserQueryDto loginUserDto)
         {
-            throw new NotImplementedException();
+            var checkPass = await _signInManager.PasswordSignInAsync(loginUserDto.UserName, loginUserDto.Password, false, false);
+            if (!checkPass.Succeeded)
+            {
+                throw new InvalidFormException($"", "wrong username or password", StatusCodes.Status401Unauthorized);
+            }
+            var user = await _userRepository.GetByUserName(loginUserDto.UserName);
+
+            var token = await GenerateToken(user);
+
+            return new LoginUserResponseDto { Id = user.Id, Token = token, Username = user.UserName };
+
         }
 
-        public void LogOut()
+        private async Task<string> GenerateToken(User user)
         {
-            throw new NotImplementedException();
+            var authParams = _authOptions.Value;
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var securityKey = authParams.GetSymmetricSecurityKey();
+
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName)
+                };
+
+            roles.ToList().ForEach(r => claims.Add(new Claim(ClaimTypes.Role, r)));
+
+            var token = new JwtSecurityToken(authParams.Issuer, 
+                                            authParams.Audience, 
+                                            claims, expires: DateTime.Now.AddSeconds(authParams.TokenLifeTime), 
+                                            signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+
+
+
+
+        }
+
+        public async Task LogOut()
+        {
+            await _signInManager.SignOutAsync();
         }
 
         public async Task<UserResponseDto> RegisterUser(RegisterUserQueryDto registerUserDto)
@@ -42,6 +91,7 @@ namespace WebAPI.Services
 
             if (check != null)
             {
+                // @TO-DO refactor
                 var email = registerUserDto.Email == check.Email ? registerUserDto.Email  : "";
                 var username = registerUserDto.UserName == check.UserName ? registerUserDto.UserName : "";
 

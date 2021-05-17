@@ -10,9 +10,9 @@ namespace WebAPI.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<UserResponseDto> Login(LoginUserQueryDto loginUserDto);
+        Task<LoginUserResponseDto> Login(LoginUserQueryDto loginUserDto);
 
-        void LogOut();
+        Task LogOut();
 
         Task<UserResponseDto> RegisterUser(RegisterUserQueryDto registerUserDto);
 

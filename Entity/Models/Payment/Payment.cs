@@ -8,9 +8,9 @@ namespace Entity.Models
 {
     public class Payment: EntityBase
     {
-        public uint? SubscriptionId { get; set; }
+        public long? SubscriptionId { get; set; }
         public Subscription Subscription { get; set; }
-        public uint PaymentDetailsId { get; set; }
+        public long PaymentDetailsId { get; set; }
         public PaymentDetails PaymentDetails { get; set; }
     }
 }

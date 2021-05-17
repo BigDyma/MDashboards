@@ -32,6 +32,7 @@ namespace WebAPI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddCors();
             services.AddIdentity<User, Role>(options =>
             {
                 options.Password.RequiredLength = 8;
@@ -60,6 +61,12 @@ namespace WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

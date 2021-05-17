@@ -8,9 +8,9 @@ namespace Entity.Models
 {
     public class Subscription: EntityBase
     {
-        public uint UserId { get; set; }
+        public long UserId { get; set; }
         public virtual User Customer { get; set; }
-        public uint? PlanId { get; set; }
+        public long? PlanId { get; set; }
         public virtual Plan Plan { get; set; }
         [Required]
         public DateTime SubscriptionStartTimestamp { get; set; }

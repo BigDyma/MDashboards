@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Entity.Models.Users
 {
-    public class UserToken: IdentityUserToken<uint>
+    public class UserToken: IdentityUserToken<long>
     {
     }
 }

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Entity
 {
-    public class User : IdentityUser<uint>
+    public class User : IdentityUser<long>
     {
         [MaxLength(32)]
         [Required]

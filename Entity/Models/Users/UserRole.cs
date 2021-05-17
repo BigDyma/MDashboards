@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Entity.Models.Users
 {
-    public class UserRole: Microsoft.AspNetCore.Identity.IdentityUserRole<uint>
+    public class UserRole: Microsoft.AspNetCore.Identity.IdentityUserRole<long>
     {
     }
 }

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Entity.Models
 {
-    public class Role: IdentityRole<uint>
+    public class Role: IdentityRole<long>
     {
         [MaxLength(32)]
         public string RoleName { get; set; } // Moderator, User, Customer?

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Entity.Models.Users
 {
-    public class UserClaim: IdentityUserClaim<uint>
+    public class UserClaim: IdentityUserClaim<long>
     {
     }
 }

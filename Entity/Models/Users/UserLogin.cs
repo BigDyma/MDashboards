@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Entity.Models.Users
 {
-    public class UserLogin: IdentityUserLogin<uint>
+    public class UserLogin: IdentityUserLogin<long>
     {
     }
 }

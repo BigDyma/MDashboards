@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Entity.Models
 {
-    public class RoleClaim: IdentityRoleClaim<uint>
+    public class RoleClaim: IdentityRoleClaim<long>
     {
 
     }

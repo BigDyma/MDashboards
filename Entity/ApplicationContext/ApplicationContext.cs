@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Entity
 {
-    public class ApplicationContext : IdentityDbContext<User, Role, uint>
+    public class ApplicationContext : IdentityDbContext<User, Role, long>
     {
         public DbSet<Plan> Plans { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
@@ -15,6 +15,7 @@ namespace Entity
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
+           // Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

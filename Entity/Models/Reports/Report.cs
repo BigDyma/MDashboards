@@ -11,7 +11,7 @@ namespace Entity.Models
         public string Link { get; set; }
         public DateTime CreatedTime { get; set; }
 
-        public uint ProjectId { get; set; }
+        public long ProjectId { get; set; }
         public Project Projects { get; set; }
     }
 }
