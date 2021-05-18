@@ -1,13 +1,11 @@
 ﻿using Entity.Models;
 using Entity.Repository.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Entity.Repository
 {
-    class ReportRepository : SQLGenericRepository<Report>, IReport
+    public class ReportRepository : SQLGenericRepository<Report>, IReport
     {
         public ReportRepository(ApplicationContext context) : base(context)
         {
@@ -18,14 +16,21 @@ namespace Entity.Repository
             await base.Create(report);
         }
 
+        public async Task<Project> GetReportProject(long id)
+        {
+            var report = await base.GetEntity(id);
+
+            var project = _db.Set<Project>().FirstOrDefault(p => p.Id == report.ProjectId);
+
+            return project;
+        }
+
         public async Task<User> GetReportUser(long id)
         {
-            var project = await base.GetEntity(id);
+            var project = await GetReportProject(id);
 
-            var projectId = project.ProjectId;
-
-
-
+            return _db.Set<User>().FirstOrDefault(p => p.Id == project.UserId); 
         }
+
     }
 }

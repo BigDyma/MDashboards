@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.Model.Dto.Projects;
 using WebAPI.Model.Dto.Reports;
 using WebAPI.Model.Dto.User;
 
@@ -10,7 +11,7 @@ namespace WebAPI.Services.Interfaces
 {
     public interface IReportService
     {
-        Task<Report> GetReport(long id);
+        Task<ReportResponseDto> GetReport(long id);
 
         Task<ReportResponseDto> UpdateReport(ReportUpdateDto reportUpdate);
 
@@ -18,6 +19,8 @@ namespace WebAPI.Services.Interfaces
 
         Task<UserResponseDto> GetReportUser(long id);
 
-        Task CreateUser(ReportCreateDto reportCreate);
+        Task CreateReport(ReportCreateDto reportCreate);
+
+        Task<ProjectResponseDto> GetReportProject(long id);
     }
 }

@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Entity.Repository.Interfaces
 {
-    interface IReport : IRepository<Report>
+    public interface IReport : IRepository<Report>
     {
         Task<User> GetReportUser(long id);
 
         Task CreateReport(Report report);
+
+        Task<Project> GetReportProject(long id);
     }
 }

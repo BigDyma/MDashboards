@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using Entity.Repository;
 using WebAPI.Middleware;
 using Microsoft.Extensions.Logging;
+using Entity.Repository.Interfaces;
 
 namespace WebAPI
 {
@@ -33,18 +34,22 @@ namespace WebAPI
         {
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
+            
             // Repository
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IReport, ReportRepository>();
 
             // Services
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IReportService, ReportService>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddCors();
+
+            //Identity 
             services.AddIdentity<User, Role>(options =>
             {
                 options.Password.RequiredLength = 8;
@@ -60,6 +65,7 @@ namespace WebAPI
             .AddRoleManager<RoleManager<Role>>()
             .AddEntityFrameworkStores<ApplicationContext>();
 
+            // Auth
             var authOptionsConfiguration = Configuration.GetSection("Auth");
             services.Configure<AuthOptions>(authOptionsConfiguration);
             var authOptions = Configuration.GetSection("Auth").Get<AuthOptions>();
@@ -87,7 +93,6 @@ namespace WebAPI
              });
 
             services.AddAuthorization();
-
 
             services.AddControllers();
         }

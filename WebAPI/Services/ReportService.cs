@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Common.Exceptions;
 using Entity.Models;
+using Entity.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.Model.Dto.Projects;
 using WebAPI.Model.Dto.Reports;
 using WebAPI.Model.Dto.User;
 using WebAPI.Services.Interfaces;
@@ -13,35 +16,73 @@ namespace WebAPI.Services
     public class ReportService : IReportService
     {
         private IMapper _mapper { get; } 
+        private IReport  _reportRepository { get; }
 
-
-        public ReportService()
+        public ReportService(IReport reportRepository, IMapper mapper)
         {
-
-        }
-        public Task CreateUser(ReportCreateDto reportCreate)
-        {
-            throw new NotImplementedException();
+            _reportRepository = reportRepository;
+            _mapper = mapper;
         }
 
-        public Task DeleteReport(long id)
+        public async Task CreateReport(ReportCreateDto reportCreate)
         {
-            throw new NotImplementedException();
+            var report = _mapper.Map<Report>(reportCreate);
+
+            await _reportRepository.CreateReport(report);
         }
 
-        public Task<Report> GetReport(long id)
+        public async Task DeleteReport(long id)
         {
-            throw new NotImplementedException();
+            var report =  await _reportRepository.GetEntity(id);
+
+            checkExistance(report);
+
+            await _reportRepository.Delete(report);
+
         }
 
-        public Task<UserResponseDto> GetReportUser(long id)
+        public async Task<ReportResponseDto> GetReport(long id)
         {
-            throw new NotImplementedException();
+            var report = await _reportRepository.GetEntity(id);
+
+            var response = _mapper.Map<ReportResponseDto>(report);
+
+            return response;
         }
 
-        public Task<ReportResponseDto> UpdateReport(ReportUpdateDto reportUpdate)
+        public async Task<UserResponseDto> GetReportUser(long id)
         {
-            throw new NotImplementedException();
+            var user = await _reportRepository.GetReportUser(id);
+
+            var resul = _mapper.Map<UserResponseDto>(user);
+
+            return resul;
+        }
+
+        public async Task<ReportResponseDto> UpdateReport(ReportUpdateDto reportUpdate)
+        {
+            var report =  _mapper.Map<Report>(reportUpdate);
+
+            await _reportRepository.Update(report);
+
+            var response = _mapper.Map<ReportResponseDto>(reportUpdate);
+
+            return response;
+
+        }
+        private void checkExistance(Report report)
+        {
+            if (report == null)
+                throw new EntityNotFoundException("", "No such user exist");
+        }
+
+        public async Task<ProjectResponseDto> GetReportProject(long id)
+        {
+            var project = await _reportRepository.GetReportProject(id);
+
+            var resul = _mapper.Map<ProjectResponseDto>(project);
+
+            return resul;
         }
     }
 }
