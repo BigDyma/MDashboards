@@ -36,6 +36,7 @@ namespace WebAPI
             // Repository
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
 
             // Services
             services.AddScoped<IProjectService, ProjectService>();

@@ -16,7 +16,7 @@ namespace WebAPI.Services
     public class ProjectService : IProjectService
     {
         private IProjectRepository _projectRepository { get; }
-        private IMapper _mapper { get; set; }
+        private IMapper _mapper { get; }
         public ProjectService(IProjectRepository projectRepository, IMapper mapper)
         {
             _projectRepository = projectRepository;

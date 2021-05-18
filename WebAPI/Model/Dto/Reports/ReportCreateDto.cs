@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Entity.Models
+namespace WebAPI.Model.Dto.Reports
 {
-    public class Report: EntityBase
+    public class ReportCreateDto
     {
         public string Name { get; set; }
         public string Link { get; set; }
-        public DateTime CreatedTime { get; set; }
-
         public long ProjectId { get; set; }
-        public Project Projects { get; set; }
     }
 }
