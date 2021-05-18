@@ -10,7 +10,7 @@ namespace Entity
         IEnumerable<T> GetEntityList();
         Task<T> GetEntity(long id);
         Task Create(T item);
-        void Update(T item);
+        Task Update(T item);
         Task Delete(T item);
         Task Save();
     }

@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Entity.Repository;
+using WebAPI.Middleware;
+using Microsoft.Extensions.Logging;
 
 namespace WebAPI
 {
@@ -31,12 +33,15 @@ namespace WebAPI
         {
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
-
+            // Repository
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            // Services
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
+
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddCors();
             services.AddIdentity<User, Role>(options =>
@@ -87,12 +92,21 @@ namespace WebAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile("Logs/App-{Date}.txt");
+
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                 app.UseDeveloperExceptionPage(); //@TO-DO uncomment this
             }
+            else
+            {
+                app.UseMiddleware<HandleExceptionMiddleware>(); //@TO-DO uncomment this
+            }
+
+           // app.UseMiddleware<HandleExceptionMiddleware>(); // @TO-DO remove this, it's for testing only
+
             // global cors policy
             app.UseCors(x => x
                 .AllowAnyOrigin()

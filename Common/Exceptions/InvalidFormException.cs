@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebAPI.Exceptions
+namespace Common.Exceptions
 {
     public class InvalidFormException: Exception
     {

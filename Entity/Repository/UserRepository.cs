@@ -1,4 +1,5 @@
-﻿using Entity.Models;
+﻿using Common.Exceptions;
+using Entity.Models;
 using Entity.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace Entity
 {
@@ -20,6 +22,8 @@ namespace Entity
         public async Task DeleteUser(long id)
         {
             var res = await _db.Set<User>().FirstOrDefaultAsync(u => u.Id == id);
+            if (res == null)
+                throw new EntityNotFoundException("", "User doesn't exist!");
             await Delete(res);
         }
         public async Task<User> GetByUserName(string username)
@@ -49,24 +53,14 @@ namespace Entity
         {
             var res = await _db.Set<User>().FirstOrDefaultAsync(u => u.Id == id);
 
-            if (res != null)
-            {
-                //@TO-DO refactor exceptions.
-                throw new Exception("No such user");
-            }
-            return res.Projects;
+            return res?.Projects;
         }
 
         public async Task<ICollection<Report>> GetReports(long id)
         {
             var res = await _db.Set<User>().FirstOrDefaultAsync(u => u.Id == id);
-            if (res != null)
-            {
-                //@TO-DO refactor exceptions.
-                throw new Exception("No such user");
-            }
 
-           return res.Projects.SelectMany(x => x.Reports, (a, b) => b).ToList();
+           return res?.Projects.SelectMany(x => x.Reports, (a, b) => b).ToList();
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Exceptions;
 using Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +12,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using WebAPI.Exceptions;
 using WebAPI.Model.AuthOptions;
 using WebAPI.Model.Dto;
 using WebAPI.Model.Dto.User;
@@ -88,13 +88,10 @@ namespace WebAPI.Services
             if (check != null)
             {
                 // @TO-DO refactor
-                var email = registerUserDto.Email == check.Email ? registerUserDto.Email  : "";
-                var username = registerUserDto.UserName == check.UserName ? registerUserDto.UserName : "";
+                var email = registerUserDto.Email == check.Email ? "Email - " : "";
+                var username = registerUserDto.UserName == check.UserName ? "UserName :" : "";
 
-                var e = registerUserDto.Email == check.Email ? "Email - " : "";
-                var u = registerUserDto.UserName == check.UserName ? "UserName :" : "";
-
-                throw new UserAlreadyExistException($" {e} {u} {email} - {username} is already taken!");
+                throw new EntityAlreadyExistException("", $" {email} {username} already taken!");
             }
 
             var user = _mapper.Map<User>(registerUserDto);

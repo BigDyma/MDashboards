@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Exceptions;
 using Entity.Models;
 using Entity.Repository;
 using System;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using WebAPI.Model.Dto.Projects;
 using WebAPI.Model.Dto.Reports;
 using WebAPI.Services.Interfaces;
+
 
 namespace WebAPI.Services
 {
@@ -23,6 +25,7 @@ namespace WebAPI.Services
         public async Task<ProjectResponseDto> CreateProject(ProjectCreateDto projectCreate)
         {
             var project = _mapper.Map<Project>(projectCreate);
+
             var res = await _projectRepository.CreateProject(project);
 
             var output = _mapper.Map<ProjectResponseDto>(res);
@@ -33,12 +36,20 @@ namespace WebAPI.Services
 
         public async Task DeleteProject(long id)
         {
+           var res =  await _projectRepository.GetById(id);
+
+           if (res == null)
+                throw new EntityNotFoundException("", "Project doesn't exist!");
+
             await _projectRepository.DeleteProject(id);
         }
 
         public async Task<ProjectResponseDto> GetProject(long id)
         {
             var res = await _projectRepository.GetById(id);
+
+            if (res == null)
+                throw new EntityNotFoundException("", "No such project exist");
 
             var output = _mapper.Map<ProjectResponseDto>(res);
 
@@ -56,9 +67,16 @@ namespace WebAPI.Services
 
         }
 
-        public Task UpdateProject(long id, ProjectUpdateDto projectUpdate)
+        public async Task UpdateProject(ProjectUpdateDto projectUpdate)
         {
-            throw new NotImplementedException();
+            //@TO-DO refactor with mapper
+            var res = await _projectRepository.GetById(projectUpdate.Id);
+
+            if (res == null)
+                throw new EntityNotFoundException("", "No such project exist");
+
+            await _projectRepository.UpdateProject(new Project { Id = projectUpdate.Id, Name = projectUpdate.Name });
+
         }
     }
 }

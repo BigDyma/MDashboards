@@ -61,10 +61,10 @@ namespace Entity
            await _db.SaveChangesAsync();
         }
 
-        public void Update(T item)
+        public async Task Update(T item)
         {
             _db.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
         public void Detach(T item)
         {

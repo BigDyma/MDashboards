@@ -42,6 +42,7 @@ namespace WebAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto userModel)
         {
+
             var res = await _userService.UpdateUser(userModel);
 
             return Ok(res);
@@ -50,7 +51,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}/projects")]
         public async Task<IActionResult> GetUserProjects(long id)
         {
-            var res = _userService.GetUserProjects(id);
+            var res = await _userService.GetUserProjects(id);
 
             return Ok(res);
         }
@@ -58,7 +59,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}/reports")]
         public async Task<IActionResult> GetUserReports(long id)
         {
-            var res = _userService.GetUserReports(id);
+            var res = await _userService.GetUserReports(id);
 
             return Ok(res);
         }

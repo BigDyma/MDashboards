@@ -7,6 +7,7 @@ namespace WebAPI.Model.Dto.Projects
 {
     public class ProjectUpdateDto
     {
+        public long Id { get; set; }
         public string Name { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Entity.Models;
+﻿using Common.Exceptions;
+using Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,12 +26,16 @@ namespace Entity.Repository
         {
             // @TO-DO find a way to refactor this in a more generic way
             var res = await _db.Set<Project>().FirstOrDefaultAsync(u => u.Id == id);
+
+
             await Delete(res);
         }
 
         public async Task<Project> GetById(long id)
         {
-            return await _db.Set<Project>().FirstOrDefaultAsync(x => x.Id == id);
+            var res = await _db.Set<Project>().FirstOrDefaultAsync(x => x.Id == id);
+
+            return res;
         }
 
         public async Task<Project> GetByName(string name)
@@ -42,17 +47,14 @@ namespace Entity.Repository
         {
             var res = await _db.Set<Project>().FirstOrDefaultAsync(u => u.Id == id);
 
-            if (res != null)
-            {
-                //@TO-DO refactor exceptions.
-                throw new Exception("No such report");
-            }
-            return res.Reports;
+            return res?.Reports;
         }
 
-        public async Task<Project> UpdateProject(long id, Project report)
+        public async Task<Project> UpdateProject( Project project)
         {
-            throw new NotImplementedException();
+            await base.Update(project);
+
+            return project;
         }
     }
 }

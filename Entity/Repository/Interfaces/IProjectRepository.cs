@@ -14,7 +14,7 @@ namespace Entity.Repository
 
         Task<ICollection<Report>> GetReports(long id);
 
-        Task<Project> UpdateProject(long id, Project report);
+        Task<Project> UpdateProject(Project report);
 
     }
 }

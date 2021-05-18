@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Exceptions;
 using Entity;
 using System;
 using System.Collections.Generic;
@@ -22,12 +23,18 @@ namespace WebAPI.Services
         }
         public async Task DeleteUser(long id)
         {
-           await  _userRepository.DeleteUser(id);
+           var res = await _userRepository.GetEntity(id);
+
+            checkExistance(res);
+
+            await _userRepository.DeleteUser(id);
         }
 
         public async Task<UserResponseDto> GetUser(long id)
         {
             var user = await _userRepository.GetEntity(id);
+
+            checkExistance(user);
 
             var output = _mapper.Map<UserResponseDto>(user);
 
@@ -56,12 +63,18 @@ namespace WebAPI.Services
         {
             var user = _mapper.Map<User>(userUpdateDto);
 
-            _userRepository.Update(user);
+            checkExistance(user);
+
+            await _userRepository.Update(user);
 
             var output = _mapper.Map<UserResponseDto>(user);
 
             return output;
-
+        }
+        private void checkExistance(User user)
+        {
+            if (user == null)
+                throw new EntityNotFoundException("", "No such user exist");
         }
     }
 }

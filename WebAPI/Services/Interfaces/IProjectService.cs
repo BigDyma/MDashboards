@@ -13,7 +13,7 @@ namespace WebAPI.Services.Interfaces
         Task DeleteProject(long id);
         Task<ICollection<ReportResponseDto>> GetReports(long id);
 
-        Task UpdateProject(long id, ProjectUpdateDto projectUpdate);
+        Task UpdateProject(ProjectUpdateDto projectUpdate);
 
         Task<ProjectResponseDto> CreateProject(ProjectCreateDto projectCreate);
     }
