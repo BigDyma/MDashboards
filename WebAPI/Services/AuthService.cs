@@ -37,8 +37,10 @@ namespace WebAPI.Services
 
         public async Task<LoginUserResponseDto> Login(LoginUserQueryDto loginUserDto)
         {
+            var checkUsername = _userRepository.GetByUserName(loginUserDto.UserName);
+
             var checkPass = await _signInManager.PasswordSignInAsync(loginUserDto.UserName, loginUserDto.Password, false, false);
-            if (!checkPass.Succeeded)
+            if (!checkPass.Succeeded || checkUsername == null)
             {
                 throw new InvalidFormException($"", "wrong username or password", StatusCodes.Status401Unauthorized);
             }

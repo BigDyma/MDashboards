@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using Entity.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using KeyVaultRead;
 
 namespace WebAPI
 {
@@ -35,7 +36,7 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
+                options.UseSqlServer(GetSecrets.ConnectionString), ServiceLifetime.Transient);
             
             // Repository
             services.AddScoped<IProjectRepository, ProjectRepository>();

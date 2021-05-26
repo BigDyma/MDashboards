@@ -2,6 +2,7 @@
 using Common.Exceptions;
 using Entity;
 using Entity.Repository;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,15 @@ namespace WebAPI.Services
     {
         private IUserRepository _userRepository { get; }
         private IProjectRepository _projectRepository { get; }
+
+        private UserManager<User> _userManager { get; }
         private IMapper _mapper { get; }
-        public UserService(IUserRepository userRepository, IMapper mapper, IProjectRepository projectRepository)
+        public UserService(UserManager<User> userManager, IUserRepository userRepository, IMapper mapper, IProjectRepository projectRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _projectRepository = projectRepository;
+            _userManager = userManager;
         }
         public async Task DeleteUser(long id)
         {
@@ -64,15 +68,15 @@ namespace WebAPI.Services
 
         public async Task<UserResponseDto> UpdateUser(UserUpdateDto userUpdateDto)
         {
-            var user = _mapper.Map<User>(userUpdateDto);
+            var res = await _userManager.FindByIdAsync(userUpdateDto.Id.ToString());
 
-            checkExistance(user);
+            checkExistance(res);
 
-            await _userRepository.Update(user);
+            res.UserName = userUpdateDto.UserName;
 
-            var output = _mapper.Map<UserResponseDto>(user);
+            await _userManager.UpdateAsync(res);
 
-            return output;
+            return null;
         }
         private void checkExistance(User user)
         {

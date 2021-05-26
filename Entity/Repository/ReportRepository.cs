@@ -20,6 +20,9 @@ namespace Entity.Repository
         {
             var report = await base.GetEntity(id);
 
+            if (report == null)
+                return null;
+
             var project = _db.Set<Project>().FirstOrDefault(p => p.Id == report.ProjectId);
 
             return project;

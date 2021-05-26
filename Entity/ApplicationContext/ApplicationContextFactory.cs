@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using KeyVaultRead;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
@@ -15,6 +16,13 @@ namespace Entity
 
             var config = builder.Build();
             string connectionString = config.GetConnectionString(connectionType);
+            string connectionString2 = GetSecrets.ConnectionString;
+
+            System.Console.WriteLine(connectionString);
+
+            System.Console.WriteLine(connectionString2);
+
+
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
             var options = optionsBuilder.UseSqlServer(connectionString).Options;
