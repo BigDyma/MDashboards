@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Common.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Middleware
 {
@@ -17,7 +18,7 @@ namespace WebAPI.Middleware
             _logger = logger;
         }
 
-        public async Task InvokeAsync(HttpContext context)
+        public async Task<IActionResult> InvokeAsync(HttpContext context)
         {
            try
             {
@@ -31,7 +32,8 @@ namespace WebAPI.Middleware
             catch (EntityNotFoundException enfx)
             {
                 _logger.LogError(enfx, "EntityNotFoundException occured");
-                await ReturnErrorAsync(context, enfx.PublicMessage, enfx.ReturnStatusCode);
+                //return  new JsonResult(enfx.PublicMessage);
+               await ReturnErrorAsync(context, enfx.PublicMessage, enfx.ReturnStatusCode);
             }
             catch (InvalidFormException ifex)
             {
@@ -41,13 +43,11 @@ namespace WebAPI.Middleware
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception occured");
+                ///return new Microsoft.AspNetCore.Mvc.JsonResult(result);
                 await ReturnErrorAsync(context, "Internal Server Errror");
             }
-            //finally
-            //{
-            //    // 
-            //}
 
+            return new JsonResult("");
         }
 
         private async static Task ReturnErrorAsync(HttpContext context, string message, int statusCode = StatusCodes.Status500InternalServerError)

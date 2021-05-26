@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common.Exceptions;
 using Entity;
+using Entity.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,13 @@ namespace WebAPI.Services
     public class UserService : IUserService
     {
         private IUserRepository _userRepository { get; }
+        private IProjectRepository _projectRepository { get; }
         private IMapper _mapper { get; }
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IMapper mapper, IProjectRepository projectRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _projectRepository = projectRepository;
         }
         public async Task DeleteUser(long id)
         {
@@ -52,9 +55,9 @@ namespace WebAPI.Services
 
         public async Task<ICollection<ReportResponseDto>> GetUserReports(long id)
         {
-            var res = await _userRepository.GetReports(id);
+            var allUserReports = await _projectRepository.GetAllUserReports(id);
 
-            var output = _mapper.Map<ICollection<ReportResponseDto>>(res);
+            var output = _mapper.Map<ICollection<ReportResponseDto>>(allUserReports);
 
             return output;
         }

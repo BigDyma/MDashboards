@@ -14,6 +14,8 @@ namespace WebAPI.Model.Mapping
         {
             CreateMap<ReportUpdateDto, Report>();
 
+            CreateMap<Report, ReportResponseDto>();
+
         }
     }
 }

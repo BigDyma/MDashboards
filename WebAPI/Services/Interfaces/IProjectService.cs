@@ -15,6 +15,6 @@ namespace WebAPI.Services.Interfaces
 
         Task UpdateProject(ProjectUpdateDto projectUpdate);
 
-        Task<ProjectResponseDto> CreateProject(ProjectCreateDto projectCreate);
+        Task CreateProject(ProjectCreateDto projectCreate);
     }
 }

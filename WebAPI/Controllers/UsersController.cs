@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
         {
             _userService = userService;
         }
-        [AllowAnonymous] //@TO-DO remove this
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(long id)
         {
@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
             return Ok(res);
 
         }
-        [AllowAnonymous] //@TO-DO remove this
+
         [HttpDelete("{id}")]
         //[Authorize(Roles = "Admin")] @TO-DO uncomment this
         public async Task<IActionResult> DeleteUser(long id)
@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
             return Ok();
 
         }
-        [AllowAnonymous] //@TO-DO remove this
+
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto userModel)
         {
@@ -47,7 +47,7 @@ namespace WebAPI.Controllers
 
             return Ok(res);
         }
-        [AllowAnonymous] //@TO-DO remove this
+
         [HttpGet("{id}/projects")]
         public async Task<IActionResult> GetUserProjects(long id)
         {
@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
 
             return Ok(res);
         }
-        [AllowAnonymous] //@TO-DO remove this
+
         [HttpGet("{id}/reports")]
         public async Task<IActionResult> GetUserReports(long id)
         {

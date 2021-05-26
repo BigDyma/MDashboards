@@ -1,6 +1,7 @@
 ﻿using Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Entity.Repository
@@ -42,10 +43,20 @@ namespace Entity.Repository
 
         public async Task<ICollection<Report>> GetReports(long id)
         {
-            var res = await _db.Set<Project>().FirstOrDefaultAsync(u => u.Id == id);
+            var res = await _db.Projects.Include("Reports").FirstOrDefaultAsync(u => u.Id == id);
 
             return res?.Reports;
         }
+
+        public async Task<ICollection<Report>> GetAllUserReports(long id)
+        {
+            var projects = await _db.Projects.Include("Reports").Where(u => u.UserId == id).ToListAsync();
+
+            var reports = projects.SelectMany(x => x.Reports).ToList();
+
+            return reports;
+        }
+
 
         public async Task<Project> UpdateProject( Project project)
         {
@@ -53,5 +64,7 @@ namespace Entity.Repository
 
             return project;
         }
+
+
     }
 }

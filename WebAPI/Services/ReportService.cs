@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common.Exceptions;
 using Entity.Models;
+using Entity.Repository;
 using Entity.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,17 +16,25 @@ namespace WebAPI.Services
 {
     public class ReportService : IReportService
     {
+        private IProjectRepository _projectRepository { get; }
+
         private IMapper _mapper { get; } 
         private IReport  _reportRepository { get; }
 
-        public ReportService(IReport reportRepository, IMapper mapper)
+        public ReportService(IReport reportRepository, IMapper mapper, IProjectRepository projectRepository)
         {
             _reportRepository = reportRepository;
             _mapper = mapper;
+            _projectRepository = projectRepository;
         }
 
         public async Task CreateReport(ReportCreateDto reportCreate)
         {
+            var project = await _projectRepository.GetById(reportCreate.ProjectId);
+
+            if (project == null)
+                throw new EntityNotFoundException("", "Project doesn't exist!");
+
             var report = _mapper.Map<Report>(reportCreate);
 
             await _reportRepository.CreateReport(report);

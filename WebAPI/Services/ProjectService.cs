@@ -22,15 +22,11 @@ namespace WebAPI.Services
             _projectRepository = projectRepository;
             _mapper = mapper;
         }
-        public async Task<ProjectResponseDto> CreateProject(ProjectCreateDto projectCreate)
+        public async Task CreateProject(ProjectCreateDto projectCreate)
         {
             var project = _mapper.Map<Project>(projectCreate);
 
             var res = await _projectRepository.CreateProject(project);
-
-            var output = _mapper.Map<ProjectResponseDto>(res);
-
-            return output;
 
         }
 

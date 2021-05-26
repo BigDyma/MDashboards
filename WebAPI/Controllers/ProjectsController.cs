@@ -9,6 +9,8 @@ using WebAPI.Services.Interfaces;
 
 namespace WebAPI.Controllers
 {
+    [ApiController]
+    [Route("{controller}")]
     public class ProjectsController : BaseController
     {
         private IProjectService _projectService { get; }
@@ -42,7 +44,6 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
-        [AllowAnonymous]
         [HttpGet("{id}/reports")]
         public async Task<IActionResult> GetProjectReports (long id)
         {
@@ -50,11 +51,12 @@ namespace WebAPI.Controllers
             return Ok(res);
         }
 
-        [HttpPost]
+        [HttpPost("add")]
+        [AllowAnonymous]
         public async Task<IActionResult> CreateProject([FromBody] ProjectCreateDto projectCreateDto)
         {
-            var res = await _projectService.CreateProject(projectCreateDto);
-            return Ok(res);
+            await _projectService.CreateProject(projectCreateDto);
+            return Ok();
         }
     }
 }

@@ -20,6 +20,6 @@ namespace Entity
         public DateTime DOB { get; set; }
         public string RegisterTimestamp { get; set; }
 
-        public ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
     }
 }

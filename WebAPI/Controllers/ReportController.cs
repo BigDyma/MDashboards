@@ -8,6 +8,8 @@ using WebAPI.Services.Interfaces;
 
 namespace WebAPI.Controllers
 {
+    [ApiController]
+    [Route("{controller}")]
     public class ReportController : BaseController
     {
         private IReportService _reportService { get; }
@@ -49,7 +51,7 @@ namespace WebAPI.Controllers
             return Ok(res);
         }
 
-        [HttpPost]
+        [HttpPost("add")]
         public async Task<IActionResult> CreateReport([FromBody] ReportCreateDto projectCreateDto)
         {
             await _reportService.CreateReport(projectCreateDto);

@@ -9,9 +9,12 @@ namespace WebAPI.Model.Dto
 {
     public class RegisterUserQueryDto 
     {
+        [Required]
         [MaxLength(32)]
         public string FullName { get; set; }
+        [Required]
         public string UserName { get; set; }
+        [Required]
         public string Password { get; set; }
         [MaxLength(320)]
         [EmailAddress]

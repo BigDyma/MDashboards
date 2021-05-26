@@ -48,16 +48,16 @@ namespace Entity
 
         public async Task<ICollection<Project>> GetProjects(long id)
         {
-            var res = await _db.Set<User>().FirstOrDefaultAsync(u => u.Id == id);
-
+            var res =  await _db.Users.Include("Projects").FirstOrDefaultAsync(u => u.Id == id);
+            
             return res?.Projects;
         }
 
         public async Task<ICollection<Report>> GetReports(long id)
         {
-            var res = await _db.Set<User>().FirstOrDefaultAsync(u => u.Id == id);
+            var res = await _db.Users.Include("Projects").FirstOrDefaultAsync(u => u.Id == id);
 
-           return res?.Projects.SelectMany(x => x.Reports, (a, b) => b).ToList();
+            return (res?.Projects.SelectMany(x => x.Reports))?.ToList();
         }
     }
 

@@ -17,6 +17,8 @@ using Entity.Repository;
 using WebAPI.Middleware;
 using Microsoft.Extensions.Logging;
 using Entity.Repository.Interfaces;
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace WebAPI
 {
@@ -70,6 +72,21 @@ namespace WebAPI
             services.Configure<AuthOptions>(authOptionsConfiguration);
             var authOptions = Configuration.GetSection("Auth").Get<AuthOptions>();
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Events.OnRedirectToAccessDenied =
+                    options.Events.OnRedirectToLogin = context =>
+                    {
+                        if (context.Request.Method != "GET")
+                        {
+                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            return Task.FromResult<object>(null);
+                        }
+                        context.Response.Redirect(context.RedirectUri);
+                        return Task.FromResult<object>(null);
+                    };
+            });
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -104,11 +121,12 @@ namespace WebAPI
 
             if (env.IsDevelopment())
             {
-                 app.UseDeveloperExceptionPage(); //@TO-DO uncomment this
+                app.UseMiddleware<HandleExceptionMiddleware>();
+                //@TO-DO uncomment this
             }
             else
             {
-                app.UseMiddleware<HandleExceptionMiddleware>(); //@TO-DO uncomment this
+                app.UseDeveloperExceptionPage();  //@TO-DO uncomment this
             }
 
            // app.UseMiddleware<HandleExceptionMiddleware>(); // @TO-DO remove this, it's for testing only
