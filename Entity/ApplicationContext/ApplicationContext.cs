@@ -12,6 +12,8 @@ namespace Entity
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Payment> Payments { get; set; }
+
+        public DbSet<CSVFile> CSVFiles { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {

@@ -74,7 +74,7 @@ namespace WebAPI.Services
 
             res.UserName = userUpdateDto.UserName;
 
-            await _userManager.UpdateAsync(res);
+            await _userRepository.Update(res);
 
             return null;
         }

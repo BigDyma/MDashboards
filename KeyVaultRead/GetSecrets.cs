@@ -10,6 +10,8 @@ namespace KeyVaultRead
     {
         public static string AuthKey { get; private set; }
         public static string ConnectionString { get; private set; }
+
+        public static string StripeSecretKey { get; private set; }
          static GetSecrets()
         {
             var BASE_URI = "https://mdashboard-keys.vault.azure.net/";
@@ -23,8 +25,11 @@ namespace KeyVaultRead
 
             var connectionString = client.GetSecret("DefaultConnectionString");
 
+            var StripeKey = client.GetSecret("StripeApiKey");
+
             AuthKey = authKey.Value.Value;
             ConnectionString = connectionString.Value.Value;
+            StripeSecretKey = StripeKey.Value.Value;
         }
     }
 }

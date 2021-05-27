@@ -20,6 +20,7 @@ using Entity.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using KeyVaultRead;
+using Stripe;
 
 namespace WebAPI
 {
@@ -42,12 +43,16 @@ namespace WebAPI
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IReport, ReportRepository>();
+            services.AddScoped<IRepository<Payment>, SQLGenericRepository<Payment>>();
+            services.AddScoped<IRepository<PaymentDetails>, SQLGenericRepository<PaymentDetails>>();
+            services.AddScoped<IRepository<Entity.Models.Subscription>, SQLGenericRepository<Entity.Models.Subscription>>();
 
             // Services
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IReportService, ReportService>();
+            services.AddScoped<IPaymentService, PaymentService>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddCors();
@@ -118,6 +123,11 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            // @TODO refactor this with azure integration
+            StripeConfiguration.ApiKey = GetSecrets.StripeSecretKey;
+
+            System.Console.WriteLine(StripeConfiguration.ApiKey);
+
             loggerFactory.AddFile("Logs/App-{Date}.txt");
 
             if (env.IsDevelopment())
